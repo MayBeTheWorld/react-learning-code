@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 // 由于useEffect 参数的那个函数不支持 async，使用 async await 语法需要单独写一个函数
 async function queryData() {
@@ -10,19 +10,18 @@ async function queryData() {
   return data;
 }
 
-
 function App() {
   const [num, setNum] = useState(0);
 
-  useEffect(() => {
+  // 绝大多数情况下，你把 useEffect 换成 useLayoutEffect 效果是一样的，不同的是 useEffect 存在的异步的 effect 执行的回调会在渲染后执行
+  // useLayoutEffect 存在异步的 effect 执行是同步的，也就是在同一个任务。这样浏览器会等 effect 逻辑（包括异步逻辑）执行完再渲染
+  useLayoutEffect(() => {++
     console.log('xxx')
     queryData().then(data => {
       setNum(data)
     })
-  // 这里传入的第二个参数叫做依赖数组，react 是根据它有没有变来决定是否执行 effect 函数的，如果没传则每次都执行
   }, [1, 2, 3, Date.now()])
   
-  // useEffect 里如果跑了一个定时器，依赖变了之后，再次执行 useEffect，又跑了一个，清理上一个定时器
   useEffect(() => {
     console.log('effect')
     const timer = setInterval(() => {
