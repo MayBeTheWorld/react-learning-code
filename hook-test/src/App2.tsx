@@ -15,7 +15,7 @@ function App() {
 
   // 绝大多数情况下，你把 useEffect 换成 useLayoutEffect 效果是一样的，不同的是 useEffect 存在的异步的 effect 执行的回调会在渲染后执行
   // useLayoutEffect 存在异步的 effect 执行是同步的，也就是在同一个任务。这样浏览器会等 effect 逻辑（包括异步逻辑）执行完再渲染
-  useLayoutEffect(() => {++
+  useLayoutEffect(() => {
     console.log('xxx')
     queryData().then(data => {
       setNum(data)
